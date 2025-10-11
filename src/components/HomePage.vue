@@ -65,7 +65,7 @@ onMounted(() => {
 
 <template>
   <div class="home-page">
-    <header class="header">
+    <div class="page-header">
       <div class="container">
         <h1 class="title">Мероприятия</h1>
         <button @click="showCreator = true" class="create-btn">
@@ -76,7 +76,7 @@ onMounted(() => {
           Создать мероприятие
         </button>
       </div>
-    </header>
+    </div>
 
     <div class="container">
       <div class="tabs">
@@ -146,7 +146,7 @@ onMounted(() => {
   flex-direction: column;
 }
 
-.header {
+.page-header {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -159,7 +159,7 @@ onMounted(() => {
   padding: 0 2rem;
 }
 
-.header .container {
+.page-header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -301,7 +301,7 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-  .header .container {
+  .page-header .container {
     flex-direction: column;
     gap: 1rem;
   }
