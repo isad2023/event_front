@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 import EventCard from './EventCard.vue'
 import EventCreator from './EventCreator.vue'
+import Navigation from './Navigation.vue'
 
 interface Event {
   id: string
@@ -67,14 +68,19 @@ onMounted(() => {
   <div class="home-page">
     <div class="page-header">
       <div class="container">
-        <h1 class="title">Мероприятия</h1>
-        <button @click="showCreator = true" class="create-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          Создать мероприятие
-        </button>
+        <div class="header-top">
+          <Navigation />
+        </div>
+        <div class="header-content">
+          <h1 class="title">Мероприятия</h1>
+          <button @click="showCreator = true" class="create-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Создать мероприятие
+          </button>
+        </div>
       </div>
     </div>
 
@@ -160,6 +166,17 @@ onMounted(() => {
 }
 
 .page-header .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;

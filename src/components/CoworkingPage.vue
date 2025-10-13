@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import Navigation from './Navigation.vue'
 
 interface DonationItem {
   name: string
@@ -23,7 +24,7 @@ const keyTransferForm = ref({
   toTelegram: ''
 })
 
-const hourlyOccupancy = ref([
+const weekdayOccupancy = [
   { hour: '00:00', level: 0 },
   { hour: '01:00', level: 0 },
   { hour: '02:00', level: 0 },
@@ -48,7 +49,71 @@ const hourlyOccupancy = ref([
   { hour: '21:00', level: 10 },
   { hour: '22:00', level: 5 },
   { hour: '23:00', level: 0 }
-])
+]
+
+const fridayOccupancy = [
+  { hour: '00:00', level: 0 },
+  { hour: '01:00', level: 0 },
+  { hour: '02:00', level: 0 },
+  { hour: '03:00', level: 0 },
+  { hour: '04:00', level: 0 },
+  { hour: '05:00', level: 0 },
+  { hour: '06:00', level: 0 },
+  { hour: '07:00', level: 0 },
+  { hour: '08:00', level: 5 },
+  { hour: '09:00', level: 15 },
+  { hour: '10:00', level: 25 },
+  { hour: '11:00', level: 40 },
+  { hour: '12:00', level: 55 },
+  { hour: '13:00', level: 60 },
+  { hour: '14:00', level: 45 },
+  { hour: '15:00', level: 30 },
+  { hour: '16:00', level: 20 },
+  { hour: '17:00', level: 10 },
+  { hour: '18:00', level: 5 },
+  { hour: '19:00', level: 0 },
+  { hour: '20:00', level: 0 },
+  { hour: '21:00', level: 0 },
+  { hour: '22:00', level: 0 },
+  { hour: '23:00', level: 0 }
+]
+
+const weekendOccupancy = [
+  { hour: '00:00', level: 0 },
+  { hour: '01:00', level: 0 },
+  { hour: '02:00', level: 0 },
+  { hour: '03:00', level: 0 },
+  { hour: '04:00', level: 0 },
+  { hour: '05:00', level: 0 },
+  { hour: '06:00', level: 0 },
+  { hour: '07:00', level: 0 },
+  { hour: '08:00', level: 0 },
+  { hour: '09:00', level: 0 },
+  { hour: '10:00', level: 0 },
+  { hour: '11:00', level: 0 },
+  { hour: '12:00', level: 0 },
+  { hour: '13:00', level: 0 },
+  { hour: '14:00', level: 0 },
+  { hour: '15:00', level: 0 },
+  { hour: '16:00', level: 0 },
+  { hour: '17:00', level: 0 },
+  { hour: '18:00', level: 0 },
+  { hour: '19:00', level: 0 },
+  { hour: '20:00', level: 0 },
+  { hour: '21:00', level: 0 },
+  { hour: '22:00', level: 0 },
+  { hour: '23:00', level: 0 }
+]
+
+const hourlyOccupancy = computed(() => {
+  if (selectedDay.value === 4) {
+    return fridayOccupancy
+  }
+  if (selectedDay.value === 5 || selectedDay.value === 6) {
+    return weekendOccupancy
+  }
+  return weekdayOccupancy
+})
 
 const donors = ref<DonationItem[]>([
   { name: 'Алексей Петров', contribution: 'Холодильник Samsung', items: ['Холодильник Samsung'] },
@@ -75,7 +140,10 @@ const currentOccupancyClass = computed(() => {
   return 'high'
 })
 
-const maxLevel = computed(() => Math.max(...hourlyOccupancy.value.map(h => h.level)))
+const maxLevel = computed(() => {
+  const max = Math.max(...hourlyOccupancy.value.map(h => h.level))
+  return max === 0 ? 1 : max
+})
 
 const handleKeyTransfer = () => {
   keyHolder.value = `${keyTransferForm.value.toTelegram}`
@@ -99,12 +167,17 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   <div class="coworking-page">
     <div class="page-header">
       <div class="container">
-        <h1 class="title">Коворкинг</h1>
+        <div class="header-top">
+          <Navigation />
+        </div>
+        <div class="header-content">
+          <h1 class="title">Коворкинг</h1>
+        </div>
       </div>
     </div>
 
     <div class="container">
-      <div class="status-section">
+      <div class="top-section">
         <div class="status-card">
           <div class="status-header">
             <h2>Статус коворкинга</h2>
@@ -128,9 +201,7 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
             </button>
           </div>
         </div>
-      </div>
 
-      <div class="occupancy-section">
         <div class="occupancy-card">
           <h2>Посещаемость коворкинга</h2>
 
@@ -278,13 +349,30 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem 0;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.page-header .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title {
@@ -297,8 +385,13 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   background-clip: text;
 }
 
-.status-section,
-.occupancy-section,
+.top-section {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
 .donors-section {
   margin-bottom: 2rem;
 }
@@ -308,7 +401,7 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 .donors-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
@@ -324,14 +417,14 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .status-card h2,
 .occupancy-card h2,
 .donors-card h2 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -341,7 +434,7 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -355,17 +448,17 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 .status-content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .status-indicator {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 1rem;
-  border-radius: 12px;
+  padding: 0.75rem;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -395,18 +488,19 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   align-items: center;
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.7);
-  padding: 1rem;
-  border-radius: 12px;
+  padding: 0.75rem;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
 }
 
 .transfer-btn {
   background: linear-gradient(135deg, #8b5cf6, #d946ef);
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -422,9 +516,9 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -441,20 +535,20 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 }
 
 .current-time {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: white;
 }
 
 .current-label {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
 }
 
 .days-selector {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .day-btn {
@@ -463,8 +557,8 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   color: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 0.75rem;
-  font-size: 0.9rem;
+  padding: 0.6rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -489,9 +583,9 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  height: 200px;
-  gap: 4px;
-  margin-bottom: 1rem;
+  height: 150px;
+  gap: 3px;
+  margin-bottom: 0.75rem;
 }
 
 .bar-wrapper {
@@ -522,20 +616,20 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   display: flex;
   justify-content: space-between;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .donors-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .donor-item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 0.75rem;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -547,15 +641,15 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 }
 
 .donor-rank {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #8b5cf6, #d946ef);
   border-radius: 50%;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .donor-info {
@@ -564,13 +658,13 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 
 .donor-name {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
 .donor-contribution {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .modal-overlay {
@@ -713,6 +807,12 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
 .status-option.closed:hover {
   border-color: #f87171;
   background: rgba(248, 113, 113, 0.2);
+}
+
+@media (max-width: 1024px) {
+  .top-section {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
