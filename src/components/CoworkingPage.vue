@@ -167,12 +167,7 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   <div class="coworking-page">
     <div class="page-header">
       <div class="container">
-        <div class="header-top">
-          <Navigation />
-        </div>
-        <div class="header-content">
-          <h1 class="title">Коворкинг</h1>
-        </div>
+        <Navigation />
       </div>
     </div>
 
@@ -358,22 +353,6 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   padding: 0 2rem;
 }
 
-.page-header .container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.header-top {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .title {
   margin: 0;

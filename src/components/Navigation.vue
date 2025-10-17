@@ -11,56 +11,55 @@ const isHome = computed(() => route.path === '/')
 
 <template>
   <nav class="main-nav">
-    <button
+    <h1
       @click="router.push('/')"
-      :class="['nav-btn', { active: isHome }]"
+      :class="['nav-title', { active: isHome }]"
     >
       Мероприятия
-    </button>
-    <button
+    </h1>
+    <h1
       @click="router.push('/coworking')"
-      :class="['nav-btn', { active: isCoworking }]"
+      :class="['nav-title', { active: isCoworking }]"
     >
       Коворкинг
-    </button>
+    </h1>
   </nav>
 </template>
 
 <style scoped>
 .main-nav {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
 }
 
-.nav-btn {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
+.nav-title {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.3);
+  user-select: none;
 }
 
-.nav-btn:hover {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  color: white;
-  transform: translateY(-1px);
+.nav-title:hover {
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.nav-btn.active {
+.nav-title.active {
   background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @media (max-width: 768px) {
-  .nav-btn {
-    flex: 1;
-    text-align: center;
+  .nav-title {
+    font-size: 1.75rem;
+  }
+
+  .main-nav {
+    gap: 1.5rem;
   }
 }
 </style>

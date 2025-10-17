@@ -68,11 +68,8 @@ onMounted(() => {
   <div class="home-page">
     <div class="page-header">
       <div class="container">
-        <div class="header-top">
-          <Navigation />
-        </div>
         <div class="header-content">
-          <h1 class="title">Мероприятия</h1>
+          <Navigation />
           <button @click="showCreator = true" class="create-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"/>
@@ -163,17 +160,6 @@ onMounted(() => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-}
-
-.page-header .container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.header-top {
-  display: flex;
-  justify-content: flex-start;
 }
 
 .header-content {

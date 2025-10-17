@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/vite-env.d.ts","./src/App.vue","./src/components/CoworkingPage.vue","./src/components/EventCard.vue","./src/components/EventCreator.vue","./src/components/EventDetail.vue","./src/components/HelloWorld.vue","./src/components/HomePage.vue","./src/components/Navigation.vue"],"version":"5.8.3"}
