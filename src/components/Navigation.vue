@@ -46,7 +46,14 @@ const isHome = computed(() => route.path === '/')
   color: rgba(255, 255, 255, 0.6);
 }
 
-.nav-title.active {
+.nav-title.active:first-child {
+  background: linear-gradient(135deg, #ff6b35, #ffa726);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-title.active:last-child {
   background: linear-gradient(135deg, #8b5cf6, #d946ef);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

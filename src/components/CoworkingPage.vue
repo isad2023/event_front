@@ -353,17 +353,6 @@ const updateStatus = (newStatus: 'open' | 'closed') => {
   padding: 0 2rem;
 }
 
-
-.title {
-  margin: 0;
-  font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .top-section {
   display: grid;
   grid-template-columns: 400px 1fr;
