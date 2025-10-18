@@ -68,7 +68,16 @@ onMounted(() => {
   <div class="home-page">
     <div class="page-header">
       <div class="container">
-        <Navigation />
+        <div class="header-content">
+          <Navigation />
+          <button @click="showCreator = true" class="create-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Создать мероприятие
+          </button>
+        </div>
       </div>
     </div>
 
@@ -153,6 +162,32 @@ onMounted(() => {
   padding: 0 2rem;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #ff6b35, #ffa726);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
 
 .tabs {
   display: flex;
